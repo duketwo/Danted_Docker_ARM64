@@ -1,0 +1,9 @@
+version: "2.1"
+services:
+  sockd:
+    container_name: "host_sockd"
+    network_mode: "host"
+    build: ./sockd/
+    volumes:
+      - ./sockd/sockd.conf:/etc/sockd.conf
+    restart: always
