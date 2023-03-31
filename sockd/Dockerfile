@@ -7,6 +7,9 @@ ENV DANTE_SHA 43c8289b71dbf596735fb2e74e8bbf2316ce83ae8cd288d0f510397f033ac322
 ENV DANTE_FILE dante.tar.gz
 ENV DANTE_TEMP dante
 ENV DANTE_DEPS build-essential curl openssl unzip
+ENV DANTE_PASS verisecurepw
+# If you change the user name, you also need to change it in the sockd.conf
+ENV DANTE_USER userX
 
 RUN set -xe \
     && apt-get update \
@@ -22,7 +25,7 @@ RUN set -xe \
         && make install \
         && cd .. \
         && rm -rf $DANTE_TEMP \
-    && useradd -m -p $(echo verisecurepw | openssl passwd -1 -stdin) -s /bin/bash userX \
+    && useradd -m -p $(echo $DANTE_PASS | openssl passwd -1 -stdin) -s /bin/bash $DANTE_USER \
     && apt-get purge -y --auto-remove $DANTE_DEPS \
     && rm -rf /var/lib/apt/lists/*
 
